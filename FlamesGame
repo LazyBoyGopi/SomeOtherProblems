@@ -1,0 +1,76 @@
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+
+public class HelloWorld {
+    public static void main(String[] args) {
+       FlamesGame.main(args);
+    }
+}
+
+class FlamesGame 
+{
+	private static List deleteCharAt(StringBuilder sb ,int st,int count){
+		while(count > 1){
+			if(st >= sb.length()-1) st = 0;
+			else st++;
+			count--;
+		}
+		StringBuilder s = new StringBuilder(sb.substring(0,st).concat(sb.substring(st+1,sb.length())));
+		if(st == sb.length()-1) st = 0;
+		
+		List list = new ArrayList<>(2);
+		list.add(s);
+		list.add(st);
+		return list;
+	}
+	public static void main(String[] args) 
+	{
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("Enter your name : ");
+		String your_name = sc.nextLine().toLowerCase().replaceAll("\\s+","");
+		
+		System.out.print("Enter your crush's name : ");
+		String yours_crush_name = sc.nextLine().toLowerCase().replaceAll("\\s+","");
+
+		int[]ar1 = new int[26];
+		int[]ar2 = new int[26];
+		
+		for(char ch : your_name.toCharArray()){
+			ar1[ch-'a']++;
+		}
+		for(char ch : yours_crush_name.toCharArray()){
+			ar2[ch-'a']++;
+		}
+		
+		int count = 0;
+		for(int i=0;i<26;i++){
+			count += Math.abs(ar1[i]-ar2[i]);
+		}
+
+		StringBuilder sb = new StringBuilder("FLAMES");
+		int st = 0;
+		while(sb.length() != 1){
+			List l = deleteCharAt(sb,st,count);
+			sb = (StringBuilder)l.get(0);
+			st = (int)l.get(1);
+		}
+		System.out.println();
+		System.out.print("You Both are : ");
+		switch(sb.charAt(0)){
+			case 'F' : System.out.println("Friends");
+			break;
+			case 'L' : System.out.println("Lovers");
+			break;
+			case 'A' : System.out.println("Attraction");
+			break;
+			case 'M' : System.out.println("Marriage");
+			break;
+			case 'E' : System.out.println("Enemies");
+			break;
+			case 'S' : System.out.println("Siblings");
+			break;
+		}
+	}
+}
